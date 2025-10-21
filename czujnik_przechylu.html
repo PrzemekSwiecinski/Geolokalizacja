@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Czujnik Przechyłu</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0;
+            text-align: center; 
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+        .container {
+            padding: 2rem;
+            background-color: #2a2a2a;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            min-width: 300px;
+        }
+        h1 {
+            color: #ffffff;
+        }
+        p {
+            font-size: 1.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.8;
+            text-align: left;
+            margin-top: 20px;
+        }
+        span {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Orientacja Urządzenia</h1>
+        <div id="dane">
+            <p>
+                Alpha: <span id="alpha">...</span>°<br>
+                Beta:  <span id="beta">...</span>°<br>
+                Gamma: <span id="gamma">...</span>°
+            </p>
+        </div>
+        <button id="permissionButton" style="display: none;">Udziel dostępu do czujników</button>
+    </div>
+
+    <script>
+        const alphaSpan = document.getElementById('alpha');
+        const betaSpan = document.getElementById('beta');
+        const gammaSpan = document.getElementById('gamma');
+        const permissionButton = document.getElementById('permissionButton');
+
+        function handleOrientation(event) {
+            alphaSpan.textContent = Math.round(event.alpha);
+            betaSpan.textContent = Math.round(event.beta);
+            gammaSpan.textContent = Math.round(event.gamma);
+        }
+        
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+            permissionButton.style.display = 'block';
+            permissionButton.onclick = () => {
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', handleOrientation);
+                            permissionButton.style.display = 'none';
+                        }
+                    })
+                    .catch(console.error);
+            };
+        } else {
+            window.addEventListener('deviceorientation', handleOrientation);
+        }
+    </script>
+
+</body>
+</html>
