@@ -1,1 +1,6 @@
-a
+# Aplikacje mobilne w HTML (geolokalizator, czujnik przechułu, wibracja telefonu)
+
+Trzy aplikacje mobilne w języku HTML. 
+1. Geolokalizator pobierający współrzędne GPS telefonu. 
+2. Czujnik przechyłu wskazujący 3 parametry przechyłu telefonu (alpha, beta i gamma).
+3. Aplikacja przeglądarkowa do włączania wibracji w telefonie.
